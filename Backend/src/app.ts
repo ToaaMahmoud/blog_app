@@ -16,3 +16,5 @@ app.use(`${baseUrl}/auth`, authRouter)
 app.get('/', (req, res) =>{
     res.json({ message: 'Hello, Toaa!' })
 })
+
+export default app
