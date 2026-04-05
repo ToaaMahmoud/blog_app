@@ -1,8 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import authRouter from './modules/auth/routes/auth.routes'
+import { connectDB } from './config/db'
 
 export const app = express()
+connectDB()
 
 // Middlewares
 app.use(express.json())
