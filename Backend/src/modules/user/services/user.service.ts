@@ -6,7 +6,7 @@ import { User } from "../models/user.model";
 export class UserService{
     async createUser(userData: RegisterDto): Promise<IUserDocument>{
         const userExist = await User.findOne({email: userData.email})
-        if(userExist) throw new ApiError(400, 'Email already in use')
+        if(userExist) throw new ApiError(409, 'Email already in use')
         const user = new User({...userData})  
         return await user.save()  
     }

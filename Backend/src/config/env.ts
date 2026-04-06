@@ -12,5 +12,6 @@ export const env = {
     REFRESH_TOKEN: {
         secret: process.env.REFRESH_TOKEN || '',
         expiresIn: '7d'
-    }
+    },
+    NODE_ENV: process.env.NODE_ENV
 }

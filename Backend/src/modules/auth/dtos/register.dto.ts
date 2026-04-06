@@ -19,7 +19,7 @@ export class RegisterDto{
     @Match('password', {message: 'Passwords do not match'})
     confirmPassword!: string
 
-     @IsEnum(UserRoles)
+    @IsEnum(UserRoles)
     @IsOptional()
     role?: string
 }
