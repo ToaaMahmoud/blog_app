@@ -17,7 +17,7 @@ export class PostService {
     }
 
     async getPostById(postId: string): Promise<IPost>{
-        const post = await Post.findById(postId).lean()
+        const post = await Post.findById(postId).populate('author', 'name email').lean()
         if(!post) throw new ApiError(404, "Post is not found")
         return post   
     }

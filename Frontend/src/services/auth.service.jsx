@@ -1,6 +1,4 @@
-import axios from 'axios'
+import api from "./api.service"
 
-const baseUrl = "https://blog-app-seven-neon.vercel.app/api/v1"
-
-export const register = (userData) => axios.post(`${baseUrl}/auth/register`, userData)
-export const login = (userData) => axios.post(`${baseUrl}/auth/login`, userData)
+export const register = (userData) => api.post('/auth/register', userData)
+export const login = (userData) => api.post('/auth/login', userData)

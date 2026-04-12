@@ -5,6 +5,8 @@ import {Toaster} from 'react-hot-toast'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import UserPostsPage from './pages/UserPostsPage'
+import AddPostPage from './pages/AddPostPage';
+import PageDetailPage from './pages/PageDetailPage'
 
   function MainLayout() {
   return (
@@ -32,6 +34,9 @@ function App() {
         <Route element={<MainLayout/>}>
         <Route path="/" element={<HomePage />} />
         <Route path="/user-posts" element={<UserPostsPage />} />
+        <Route path="/posts/new" element={<AddPostPage />} />
+        <Route path='/posts/edit/:id' element={<AddPostPage/>}></Route>
+        <Route path="/posts/:id" element={<PageDetailPage />} />
         </Route>
 
         <Route path='/auth' element={<AuthPage/>}/>
