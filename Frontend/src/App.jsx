@@ -1,9 +1,19 @@
 import React from 'react'
-import {Routes, Route, Navigate} from 'react-router-dom'
+import {Routes, Route, Outlet} from 'react-router-dom'
 import AuthPage from './pages/AuthPage'
 import {Toaster} from 'react-hot-toast'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
+import UserPostsPage from './pages/UserPostsPage'
+
+  function MainLayout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  )
+}
 function App() {
   return (
     <div>
@@ -18,10 +28,13 @@ function App() {
             }
         }}
       />
-      <Navbar/>
       <Routes>
+        <Route element={<MainLayout/>}>
         <Route path="/" element={<HomePage />} />
-        <Route path='/auth' element={<AuthPage/>}></Route>
+        <Route path="/user-posts" element={<UserPostsPage />} />
+        </Route>
+
+        <Route path='/auth' element={<AuthPage/>}/>
       </Routes>
     </div>
   )

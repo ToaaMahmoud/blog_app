@@ -16,6 +16,7 @@ function Navbar() {
             <div className="navbar-start">
                 <Link to='/' className="text-xl font-bold">Ink</Link>
             </div>
+            <div><Link to='/user-posts'>Your Posts</Link></div>
             <div className="navbar-end">
                 {user ? (
                     <>
