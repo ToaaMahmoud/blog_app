@@ -58,7 +58,7 @@ export class PostController {
             })
         } catch (error) {
             if (newImageData) {
-            await this.imageKitService.deleteImage(newImageData.fileId);
+            await this.imageKitService.deleteImage(newImageData.fileId as string);
         }
             next(error)
         }
