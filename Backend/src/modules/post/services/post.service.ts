@@ -4,12 +4,16 @@ import { Post } from './../models/post.model';
 import { ApiError } from '../../../shared/utils/api-error';
 export class PostService {
     async createPost(data: Omit<IPost, "author">, authorId: string): Promise<IPost> {
-        const post = await Post.create({ ...data, author: authorId })
+        const post = (await Post.create({ ...data, author: authorId })).populate('author', 'name email')
         return post
     }
 
-    async getPosts(authorId: string): Promise<IPost[]>{
-        return await Post.find({author: authorId}).lean()      
+    async getPosts(): Promise<IPost[] | null>{
+        return await Post.find({}).populate('author', 'name email').lean()      
+    }
+
+    async getUserPosts(author: string): Promise<IPost[] | null>{
+        return await Post.find({author}).populate('author', 'name email').lean()
     }
 
     async getPostById(postId: string): Promise<IPost>{

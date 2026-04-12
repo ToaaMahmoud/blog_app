@@ -14,8 +14,9 @@ const imageKitService = new ImageKitService()
 const postController = new PostController(postService, imageKitService)
 
 postRouter.post('/',authMiddleware, upload.single('image'), requireFile('image'),validateDto(CreatePostDto),postController.createPost)
-postRouter.get('/',authMiddleware, postController.getPosts)
+postRouter.get('/user-posts',authMiddleware, postController.getUserPosts)
 postRouter.get('/:id', authMiddleware, validateDto(ParamsIdDto, 'params'),postController.getPostById)
+postRouter.get('/',authMiddleware, postController.getPosts)
 postRouter.patch('/:id', authMiddleware, upload.single('image'), validateDto(ParamsIdDto, 'params'), validateDto(UpdatePostDto),postController.updatePost)
 postRouter.delete('/:id', authMiddleware,validateDto(ParamsIdDto, 'params'),postController.deletePost)
 

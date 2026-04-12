@@ -21,10 +21,22 @@ export class PostController {
     }
     getPosts = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const posts = await this.postService.getPosts(req.user.userId)
+            const posts = await this.postService.getPosts()
             return res.status(200).json({
                 success: true,
-                results: posts.length,
+                results: posts?.length,
+                data: posts
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+    getUserPosts = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const posts = await this.postService.getUserPosts(req.user.userId)
+            return res.status(200).json({
+                success: true,
+                results: posts?.length,
                 data: posts
             })
         } catch (error) {

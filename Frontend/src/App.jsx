@@ -2,6 +2,8 @@ import React from 'react'
 import {Routes, Route, Navigate} from 'react-router-dom'
 import AuthPage from './pages/AuthPage'
 import {Toaster} from 'react-hot-toast'
+import Navbar from './components/Navbar'
+import HomePage from './pages/HomePage'
 function App() {
   return (
     <div>
@@ -16,8 +18,9 @@ function App() {
             }
         }}
       />
+      <Navbar/>
       <Routes>
-        <Route path="/" element={<Navigate to="/auth" />} />
+        <Route path="/" element={<HomePage />} />
         <Route path='/auth' element={<AuthPage/>}></Route>
       </Routes>
     </div>
