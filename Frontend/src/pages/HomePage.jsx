@@ -12,7 +12,9 @@ function HomePage() {
                 // console.log(res.data.data);
                 setPosts(res.data.data)
             } catch (error) {
-                toast.error('Faild to load posts')
+                if (error.response?.status !== 401) {
+                    toast.error('Faild to load posts')
+                }
                 console.error(error);
 
             }
