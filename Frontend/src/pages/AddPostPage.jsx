@@ -4,7 +4,7 @@ import { createPost, getPostById, updatePost } from './../services/post.service'
 import { toast } from 'react-hot-toast';
 
 function AddPostPage() {
-     const { id } = useParams()
+    const { id } = useParams()
     const isEditMode = !!id
     const navigate = useNavigate()
 
@@ -12,6 +12,7 @@ function AddPostPage() {
     const [image, setImage] = useState(null)
     const [preview, setPreview] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         if (!isEditMode) return
@@ -28,8 +29,17 @@ function AddPostPage() {
         fetchPost()
     }, [id, isEditMode])
 
+    const validate = () => {
+        const newErrors = {}
+        if (!formData.title.trim()) newErrors.title = 'Title is required'
+        if (!formData.description.trim()) newErrors.description = 'Description is required'
+        if (!isEditMode && !image) newErrors.image = 'Image is required'
+        return newErrors
+    }
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+        setErrors((prev) => ({ ...prev, [e.target.name]: '' }))
     }
 
     const handleImageChange = (e) => {
@@ -37,11 +47,16 @@ function AddPostPage() {
         if (!file) return
         setImage(file)
         setPreview(URL.createObjectURL(file))
+        setErrors((prev) => ({ ...prev, image: '' }))
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (!isEditMode && !image) return toast.error('Please select an image')
+        const validationErrors = validate()
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors)
+            return
+        }
 
         try {
             setLoading(true)
@@ -80,8 +95,13 @@ function AddPostPage() {
                         value={formData.title}
                         onChange={handleChange}
                         placeholder="Enter post title"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:border-neutral-900"
+                        className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:border-neutral-900 ${
+                            errors.title ? 'border-red-400' : 'border-gray-200'
+                        }`}
                     />
+                    {errors.title && (
+                        <p className="text-sm text-red-500">{errors.title}</p>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -92,8 +112,13 @@ function AddPostPage() {
                         onChange={handleChange}
                         placeholder="Write your post content..."
                         rows={5}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:border-neutral-900 resize-none"
+                        className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:border-neutral-900 resize-none ${
+                            errors.description ? 'border-red-400' : 'border-gray-200'
+                        }`}
                     />
+                    {errors.description && (
+                        <p className="text-sm text-red-500">{errors.description}</p>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -102,8 +127,13 @@ function AddPostPage() {
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-md"
+                        className={`w-full px-4 py-3 border rounded-md ${
+                            errors.image ? 'border-red-400' : 'border-gray-200'
+                        }`}
                     />
+                    {errors.image && (
+                        <p className="text-sm text-red-500">{errors.image}</p>
+                    )}
                     {preview && (
                         <img src={preview} alt="preview" className="mt-2 rounded-md h-48 object-cover w-full" />
                     )}
