@@ -16,10 +16,21 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        const requestUrl = originalRequest?.url || '';
+        const isAuthRoute =
+            requestUrl.includes('/auth/login') ||
+            requestUrl.includes('/auth/register') ||
+            requestUrl.includes('/auth/refresh-token');
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        if (
+            error.response?.status === 401 &&
+            !originalRequest?._retry &&
+            !isAuthRoute &&
+            refreshToken
+        ) {
             originalRequest._retry = true;
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
                 const res = await axios.post(
                     `${BASE_URL}/auth/refresh-token`,
                     { refreshToken }
